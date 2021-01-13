@@ -33,13 +33,6 @@ const App = (props) => {
     { name: "Large", price: 8 },
     { name: "Jumbo", price: 12 },
   ];
-  let setReceipt = [];
-  const handleEvent = (e) => {
-    handleChange(e);
-    handleTotal(e);
-    addToFinalList(e);
-    // Add more functions
-  };
   // check if the current target has a class of hidden, if not add it and reverse
   const handleChange = (e) => {
     let itemIndex = e.target.id;
@@ -48,12 +41,9 @@ const App = (props) => {
       classToggleEntry[itemIndex].classList.contains("hidden")
     ) {
       classToggleEntry[itemIndex].classList.remove("hidden");
-
     } else {
       classToggleEntry[itemIndex].classList.add("hidden");
-
     }
-    // console.log(classToggleEntry[itemIndex].added, e.target.name) //
   };
   const handleTotal = (e) => {
     let getItemPrice = Math.round(e.target.value * 100) / 100; // get price of item in event
@@ -62,8 +52,12 @@ const App = (props) => {
     let subtractToTotal = Math.round((itemPrice - getItemPrice) * 100) / 100; // use the New Total and remove the current item price
     if (e.target.checked === true) {
       setItemPrice(addToTotal);
+      handleChange(e);
+      addToFinalList(e);
     } else {
       setItemPrice(subtractToTotal);
+      handleChange(e);
+      addToFinalList(e);
     }
   };
   const addToFinalList = (e) => {
@@ -75,7 +69,6 @@ const App = (props) => {
       classStepsItem[itemIndex].classList.remove("steps-hidden");
     } else {
       classStepsItem[itemIndex].classList.add("steps-hidden");
-
     }
   };
   const handleSizeChange = (e) => {
@@ -155,7 +148,7 @@ const App = (props) => {
                       name={item.name}
                       id={item.id}
                       value={item.price}
-                      onChange={handleEvent}
+                      onChange={handleTotal}
                       // disabled={sizePrice <= 0 ? true : false}
                     />
                   </li>

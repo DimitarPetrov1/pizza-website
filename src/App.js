@@ -17,6 +17,23 @@ const App = (props) => {
   let totalPrice = parseFloat(itemPrice) + parseFloat(sizePrice);
   let classToggleEntry = document.getElementsByClassName("pizza-item");
   let classStepsItem = document.getElementsByClassName("steps-item");
+  let itemList = [
+    { id: 0, name: "ham", price: 4.5, image: Ham },
+    { id: 1, name: "pepperoni", price: 3.2, image: Pepperoni },
+    { id: 2, name: "cheese", price: 3, image: Cheese },
+    { id: 3, name: "mozzarella", price: 3, image: Mozzarella },
+    { id: 4, name: "mushrooms", price: 1.8, image: Mushrooms },
+    { id: 5, name: "spinach", price: 1.5, image: Spinach },
+    { id: 6, name: "jalapenos", price: 1, image: Jalapenos },
+    { id: 7, name: "olives", price: 1, image: Olives },
+  ];
+  let sizes = [
+    { name: "Small", price: 5 },
+    { name: "Medium", price: 7 },
+    { name: "Large", price: 8 },
+    { name: "Jumbo", price: 12 },
+  ];
+  let setReceipt = [];
   const handleEvent = (e) => {
     handleChange(e);
     handleTotal(e);
@@ -31,8 +48,10 @@ const App = (props) => {
       classToggleEntry[itemIndex].classList.contains("hidden")
     ) {
       classToggleEntry[itemIndex].classList.remove("hidden");
+
     } else {
       classToggleEntry[itemIndex].classList.add("hidden");
+
     }
     // console.log(classToggleEntry[itemIndex].added, e.target.name) //
   };
@@ -56,28 +75,9 @@ const App = (props) => {
       classStepsItem[itemIndex].classList.remove("steps-hidden");
     } else {
       classStepsItem[itemIndex].classList.add("steps-hidden");
+
     }
   };
-  // const saveCart = (id) => {
-  //   localStorage.setItem("ID", id);
-  // };
-  let itemList = [
-    { id: 0, name: "ham", price: 4.5, image: Ham },
-    { id: 1, name: "pepperoni", price: 3.2, image: Pepperoni },
-    { id: 2, name: "cheese", price: 3, image: Cheese },
-    { id: 3, name: "mozzarella", price: 3, image: Mozzarella },
-    { id: 4, name: "mushrooms", price: 1.8, image: Mushrooms },
-    { id: 5, name: "spinach", price: 1.5, image: Spinach },
-    { id: 6, name: "jalapenos", price: 1, image: Jalapenos },
-    { id: 7, name: "olives", price: 1, image: Olives },
-  ];
-  let sizes = [
-    { name: "Small", price: 5 },
-    { name: "Medium", price: 7 },
-    { name: "Large", price: 8 },
-    { name: "Jumbo", price: 12 },
-  ];
-  let cartItemsFinal = [];
   const handleSizeChange = (e) => {
     let value = e.target.value;
     let valueName;

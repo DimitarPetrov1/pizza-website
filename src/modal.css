@@ -1,0 +1,23 @@
+.modal-main {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 400px;
+  min-height: 500px;
+  /* max-width: 800px; */
+  /* max-height: 1000px; */
+  background: #fff;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  z-index: 900;
+  padding: 20px;
+  transform: translate(-50%, -50%);
+}
+.modal-main button {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}

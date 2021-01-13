@@ -21,6 +21,7 @@ const App = (props) => {
     handleChange(e);
     handleTotal(e);
     addToFinalList(e);
+    // Add more functions
   };
   // check if the current target has a class of hidden, if not add it and reverse
   const handleChange = (e) => {

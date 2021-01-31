@@ -1,0 +1,47 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.builder {
+  background: url(/src/img/bg.jpg);
+  background-position: center;
+  background-size: cover;
+}
+
+._builder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Header has height 50px */
+  height: calc(100vh - 50px);
+  overflow: hidden;
+}
+
+.selection,
+.pizza,
+.total {
+  flex-basis: 20%;
+  border: 1px solid lightgray;
+  /* Header has height 50px */
+  height: calc(100vh - 50px);
+  overflow: hidden;
+}
+
+.pizza {
+  /* override */
+  flex-basis: 60%;
+}
+
+._pizza {
+  position: relative;
+}
+
+.pizza-base {
+  position: absolute;
+  width: 80%;
+  object-fit: contain;
+  z-index: 0;
+  pointer-events: none;
+}

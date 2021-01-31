@@ -1,0 +1,24 @@
+.pizza-item {
+    position: absolute;
+    visibility: hidden;
+    width: 70%;
+    object-fit: contain;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* calsses for different items */
+.pizza-item__olives,
+.pizza-item__jalapenos,
+.pizza-item__spinach,
+.pizza-item__mozzarella,
+.pizza-item__mushrooms,
+.pizza-item__cheese,
+.pizza-item__ham,
+.pizza-item__pepperoni {
+    width: 60%;
+}
+
+.visible {
+    visibility: visible;
+}

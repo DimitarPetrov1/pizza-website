@@ -1,4 +1,13 @@
 .header {
-    background: rgba(0, 0, 0, 0.349);
-    height: 50px;
+  background: rgba(0, 0, 0, 0.349);
+  height: 50px;
+  display: flex;
+  padding-left: 25px;
+  align-items: center;
+  background: #5b5b5b;
+}
+.logo {
+  font-size: 2rem;
+  font-family: "Cookie", cursive;
+  color: #ececec;
 }

@@ -1,8 +1,44 @@
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
+/* Fake loader */
+.loader {
+  position: absolute;
+  background: black;
+  height: 100%;
+  width: 100%;
+  z-index: 999;
+}
+
+.loader::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 100px;
+  width: 100px;
+  background-image: url(/src/img/loader.png);
+  background-position: center;
+  animation: loader 2s linear infinite;
+  z-index: 999;
+}
+
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/*  */
 
 .builder {
   background: url(/src/img/bg.jpg);
@@ -23,35 +59,90 @@
 .pizza,
 .total {
   flex-basis: 20%;
-  border: 1px solid lightgray;
   /* Header has height 50px */
   height: calc(100vh - 50px);
-  overflow: hidden;
 }
 
+/* Pizza area */
 .pizza {
   /* override */
+  position: relative;
   flex-basis: 60%;
 }
-
-._pizza {
-  position: relative;
-}
-
-.pizza-base,
-.sauce {
-  position: absolute;
-  width: 80%;
+.pizza img {
   object-fit: contain;
-  z-index: 0;
-  pointer-events: none;
+}
+.pizza-base,
+.sauce,
+.pizza-item {
+  position: absolute;
+  height: 80%;
+  width: 80%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.sauce-hidden {
+/* Pizza area */
+
+.hidden {
   visibility: hidden;
+  pointer-events: none;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+}
+/* Selection & Total */
+.total,
+.selection {
+  background: #00000050;
+  padding: 1rem;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  backdrop-filter: blur(6.5px);
+  -webkit-backdrop-filter: blur(6.5px);
+  /* not available in Firefox atm, perhaps later */
+  -moz-backdrop-filter: blur(6.5px);
 }
 
-.total {
-  background: #00000050;
-  color: white
+/* Selection */
+
+._selection__header {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.selection select {
+  margin-bottom: 0.5rem;
+}
+
+/* Total */
+._total__header {
+  font-size: 2rem;
+  border-bottom: 2px dotted #fff;
+  margin-bottom: 1rem;
+}
+
+#itemsCart {
+  flex: 1;
+}
+
+#totalSauce::first-letter,
+.added-item::first-letter {
+  text-transform: uppercase;
+}
+.pizza-sauce__select::after,
+#totalSauce::after {
+  content: "+";
+  display: block;
+  text-align: center;
+}
+
+#totalPrice {
+  font-size: 2rem;
+  margin-top: 1rem;
+  border-top: 2px dotted #fff;
 }

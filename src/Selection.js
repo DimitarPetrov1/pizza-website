@@ -3,14 +3,13 @@ import './css/selection.css'
 
 function Selection({ handleChange, itemName, itemPrice }) {
     return (
-        <>
-            <label htmlFor={itemName}>{itemName}: ${itemPrice}</label>
+        <div className="_selection__component">
             {/* 1. for simplicity function is named the same as the change event
                 2. sent as prop to parent
             */}
-            <input type="checkbox" name={itemName} id={itemName} value={itemPrice} onChange={handleChange} />
-            <br />
-        </>
+            <input className="selection-checkbox" type="checkbox" name={itemName} id={itemName} value={itemPrice} onChange={handleChange} />
+            <label htmlFor={itemName}>{itemName}: ${itemPrice}</label>
+        </div>
     )
 }
 export default Selection

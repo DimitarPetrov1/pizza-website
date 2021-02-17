@@ -8,6 +8,9 @@
 
 /* Fake loader */
 .loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   background: black;
   height: 100%;
@@ -15,17 +18,12 @@
   z-index: 999;
 }
 
-.loader::before {
-  content: "";
+.spinner {
   display: block;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   height: 100px;
   width: 100px;
   background-image: url(/src/img/loader.png);
-  background-position: center;
   animation: loader 2s linear infinite;
   z-index: 999;
 }
@@ -71,6 +69,7 @@
 }
 .pizza img {
   object-fit: contain;
+  pointer-events: none;
 }
 .pizza-base,
 .sauce,

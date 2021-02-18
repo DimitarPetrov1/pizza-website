@@ -1,10 +1,10 @@
 import React from 'react'
 import './css/pizza.css'
 
-function Pizza({ itemClass, itemImage, itemAlt }) {
+function Pizza({ itemImage, itemAlt }) {
     return (
         <>
-            <img style={itemClass} className={`pizza-item pizza-item__${itemAlt}`} src={itemImage} alt={itemAlt} />
+            <img className={`pizza-item pizza-item__${itemAlt}`} src={itemImage} alt={itemAlt} />
         </>
     )
 }

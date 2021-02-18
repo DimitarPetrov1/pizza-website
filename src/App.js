@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./css/App.css";
 import Header from "./Header";
 import Selection from "./Selection";
@@ -16,13 +16,12 @@ import Jalapenos from "./img/jalapenios.png";
 import Olives from "./img/msl.png";
 // Need to separate the LS update function for each thing <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 function App(props) {
+  let finalPrice = 0;
+
   // Fake loader
-  useEffect(() => {
-    setTimeout(() => {
-      document.querySelector(".loader").classList.add("hidden");
-    }, 10);
-  }, []);
-  let itemsPrice = Number(0).toFixed(2);
+  setTimeout(() => {
+    document.querySelector(".loader").classList.add("hidden");
+  }, 100);
   let items = [
     { id: 0, name: "Cheese", price: 3.15, image: Cheese },
     { id: 1, name: "Ham", price: 4.5, image: Ham },
@@ -33,8 +32,6 @@ function App(props) {
     { id: 6, name: "Jalapenos", price: 1.25, image: Jalapenos },
     { id: 7, name: "Olives", price: 1.15, image: Olives },
   ];
-  let itemsTotal = [];
-  let sauceTotal = "";
 
   // The ALT of the sauce images must be the same as the VALUE of the select Options for it to work
   // We're getting all the sauce IMGs and changeing the classses for them to visualise
@@ -50,75 +47,90 @@ function App(props) {
         sauces[i].setAttribute("class", "sauce hidden");
       }
     }
-    sauceTotal = e.target.value;
-    localStorageUpdate();
+    document.getElementById("totalSauce").textContent = e.target.value;
+    localStorage.setItem("ORDER_PIZZA_SAUCE", e.target.value);
   };
-  // CHECKBOX = ITEM NAME
+  // - Save checked state in LS if checkbox is checked
+  // - Display the items in TOTAL
+  // - Display the price in TOTAL and add to LS
+  // - Toggle classs in pizza items, they are hidden by default
   const handleChecked = (e) => {
-    let checkboxName = e.target.name;
-    let checkboxPrice = Number(e.target.value).toFixed(2);
+    let getCheckboxes = document.querySelectorAll(".selection-checkbox");
+    let getAddedItemsInTotal = document.querySelectorAll(".added-item");
+    let getPizzaItems = document.querySelectorAll(".pizza-item");
+
+    const checkboxStateUpdate = (currentState) => {
+      // Go through all checkboxes
+      // If the target checkbox is checked add to LS and reverse
+      for (let i = 0; i < getCheckboxes.length; i++) {
+        if (currentState === true) {
+          if (getCheckboxes[i].name === e.target.name) {
+            localStorage.setItem(`ORDER_ITEM-${[i]}`, getCheckboxes[i].name);
+          }
+        } else {
+          if (getCheckboxes[i].name === e.target.name) {
+            localStorage.removeItem(`ORDER_ITEM-${[i]}`, getCheckboxes[i].name);
+          }
+        }
+      }
+    };
+    const displayItemsInTotal = (currentState) => {
+      // Go through all added items in total
+      // If true and it's the target checkbox then toggle the class
+      for (let i = 0; i < getAddedItemsInTotal.length; i++) {
+        if (currentState === true) {
+          if (
+            getAddedItemsInTotal[i].classList.contains("hidden") &&
+            getAddedItemsInTotal[i].textContent === e.target.name
+          ) {
+            getAddedItemsInTotal[i].classList.remove("hidden");
+          }
+        } else {
+          if (
+            !getAddedItemsInTotal[i].classList.contains("hidden") &&
+            getAddedItemsInTotal[i].textContent === e.target.name
+          ) {
+            getAddedItemsInTotal[i].classList.add("hidden");
+          }
+        }
+      }
+    };
+    const calculatePriceAndSavetoLocalStorage = (isItemAdded) => {
+      let currentPrice = Number(e.target.value);
+      let target = document.getElementById("totalPrice");
+      if (isItemAdded === true) {
+        finalPrice = Number(finalPrice) + Number(currentPrice);
+        localStorage.setItem("ORDER_PRICE", Number(finalPrice).toFixed(2));
+        target.textContent = `$${Number(finalPrice).toFixed(2)}`;
+      } else {
+        finalPrice = Number(finalPrice) - Number(currentPrice);
+        localStorage.setItem("ORDER_PRICE", Number(finalPrice).toFixed(2));
+        target.textContent = `$${Number(finalPrice).toFixed(2)}`;
+      }
+    };
+    const classCheckToggleItem = () => {
+      for (let i = 0; i < getPizzaItems.length; i++) {
+        if (getPizzaItems[i].alt === e.target.name) {
+          if (getPizzaItems[i].classList.contains("visible")) {
+            getPizzaItems[i].classList.remove("visible");
+          } else {
+            getPizzaItems[i].classList.add("visible");
+          }
+        }
+      }
+    };
 
     if (e.target.checked === true) {
-      addItemToTotal(checkboxName, checkboxPrice);
-      itemsPrice = Number(itemsPrice) + Number(checkboxPrice);
-      showItem(checkboxName);
-      document.getElementById("totalPrice").textContent =
-        "$" + Number(itemsPrice).toFixed(2);
+      checkboxStateUpdate(true);
+      displayItemsInTotal(true);
+      calculatePriceAndSavetoLocalStorage(true);
+      classCheckToggleItem();
     } else {
-      removeItemFromTotal(checkboxName, checkboxPrice);
-      itemsPrice = Number(itemsPrice) - Number(checkboxPrice);
-      hideItem(checkboxName);
-      document.getElementById("totalPrice").textContent =
-        "$" + Number(itemsPrice).toFixed(2);
+      checkboxStateUpdate(false);
+      displayItemsInTotal(false);
+      calculatePriceAndSavetoLocalStorage(false);
+      classCheckToggleItem();
     }
-  };
-  // displays the added items to the total
-  const addItemToTotal = (checkboxName) => {
-    // add the name of the item in the array & send to LOCALSTORAGE
-    itemsTotal.push(checkboxName);
-  };
-  // removes the removed items from the total
-  const removeItemFromTotal = (checkboxName) => {
-    // remove the specific event checkbox from the array
-    for (let i = 0; i < itemsTotal.length; i++) {
-      if (itemsTotal[i] === checkboxName) {
-        itemsTotal.splice(i, 1);
-      }
-    }
-    localStorageUpdate();
-  };
-  let checkitemsTotal = document.querySelectorAll(".added-item");
-
-  const showItem = (checkboxName) => {
-    let allItemsClass = document.querySelectorAll(".pizza-item");
-
-    for (let i = 0; i < allItemsClass.length; i++) {
-      if (allItemsClass[i].classList.contains(`pizza-item__${checkboxName}`)) {
-        allItemsClass[i].classList.add("visible");
-        checkitemsTotal[i].classList.remove("hidden");
-      }
-    }
-    localStorageUpdate();
-  };
-
-  const hideItem = (checkboxName) => {
-    let allItemsClass = document.querySelectorAll(".pizza-item");
-
-    for (let i = 0; i < allItemsClass.length; i++) {
-      if (allItemsClass[i].classList.contains(`pizza-item__${checkboxName}`)) {
-        allItemsClass[i].classList.remove("visible");
-        checkitemsTotal[i].classList.add("hidden");
-      }
-    }
-  };
-
-  const localStorageUpdate = () => {
-    let LS_TOTAL_ITEMS = [...itemsTotal];
-    let LS_SAUCE = sauceTotal;
-
-    localStorage.setItem("ORDER_PRICE", Number(itemsPrice).toFixed(2));
-    localStorage.setItem("ORDER_PIZZA_SAUCE", LS_SAUCE);
-    localStorage.setItem("ORDER_ITEMS", LS_TOTAL_ITEMS);
   };
 
   return (
@@ -148,6 +160,15 @@ function App(props) {
               key={item.id}
               itemName={item.name}
               itemPrice={item.price}
+              handleDefaultChecked={
+                localStorage.getItem(`ORDER_ITEM-${item.id}`) === null
+                  ? false
+                  : localStorage
+                      .getItem(`ORDER_ITEM-${item.id}`)
+                      .includes(item.name)
+                  ? true
+                  : false
+              }
               // handleChange is prop from Selection
               handleChange={handleChecked}
             />
@@ -197,14 +218,18 @@ function App(props) {
             </p>
             {items.map((item) => {
               return (
-                // Figure it out tomorrow <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+                // If LS does not contain the order items, it's a new user or noting was added => all items hidden by default
+                // If LS has a specific item in the array => this item was added
+                // If nothing applies => hide all items by default
                 <p
                   className={
-                    localStorage.getItem("ORDER_ITEMS") === null
-                      ? `added-item hidden`
-                      : localStorage.getItem("ORDER_ITEMS").includes(item.name)
+                    localStorage.getItem(`ORDER_ITEM-${item.id}`) === null
+                      ? "added-item hidden"
+                      : localStorage
+                          .getItem(`ORDER_ITEM-${item.id}`)
+                          .includes(item.name)
                       ? "added-item"
-                      : null
+                      : "added-item hidden"
                   }
                   key={item.id}
                 >

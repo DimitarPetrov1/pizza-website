@@ -14,23 +14,22 @@ import Mushrooms from "./img/mushrooms.png";
 import Spinach from "./img/spinach.png";
 import Jalapenos from "./img/jalapenios.png";
 import Olives from "./img/msl.png";
-// Need to separate the LS update function for each thing <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+// Sometimes I get a -0.00, need to figure it out later
 function App(props) {
-  let finalPrice = 0;
-
+  let finalPrice = Number(localStorage.getItem("ORDER_PRICE"));
   // Fake loader
   setTimeout(() => {
     document.querySelector(".loader").classList.add("hidden");
-  }, 100);
+  }, 1000);
   let items = [
-    { id: 0, name: "Cheese", price: 3.15, image: Cheese },
-    { id: 1, name: "Ham", price: 4.5, image: Ham },
-    { id: 2, name: "Pepperoni", price: 3.2, image: Pepperoni },
-    { id: 3, name: "Mozzarella", price: 3.2, image: Mozzarella },
-    { id: 4, name: "Mushrooms", price: 1.8, image: Mushrooms },
+    { id: 0, name: "Cheese", price: 3, image: Cheese },
+    { id: 1, name: "Ham", price: 3.5, image: Ham },
+    { id: 2, name: "Pepperoni", price: 4, image: Pepperoni },
+    { id: 3, name: "Mozzarella", price: 3.5, image: Mozzarella },
+    { id: 4, name: "Mushrooms", price: 1.5, image: Mushrooms },
     { id: 5, name: "Spinach", price: 1.5, image: Spinach },
-    { id: 6, name: "Jalapenos", price: 1.25, image: Jalapenos },
-    { id: 7, name: "Olives", price: 1.15, image: Olives },
+    { id: 6, name: "Jalapenos", price: 1.2, image: Jalapenos },
+    { id: 7, name: "Olives", price: 1.2, image: Olives },
   ];
 
   // The ALT of the sauce images must be the same as the VALUE of the select Options for it to work
@@ -65,11 +64,17 @@ function App(props) {
       for (let i = 0; i < getCheckboxes.length; i++) {
         if (currentState === true) {
           if (getCheckboxes[i].name === e.target.name) {
-            localStorage.setItem(`ORDER_ITEM-${[i]}`, getCheckboxes[i].name);
+            localStorage.setItem(
+              `ORDER_ITEM-${getCheckboxes[i].name}`,
+              getCheckboxes[i].name
+            );
           }
         } else {
           if (getCheckboxes[i].name === e.target.name) {
-            localStorage.removeItem(`ORDER_ITEM-${[i]}`, getCheckboxes[i].name);
+            localStorage.removeItem(
+              `ORDER_ITEM-${getCheckboxes[i].name}`,
+              getCheckboxes[i].name
+            );
           }
         }
       }
@@ -96,17 +101,18 @@ function App(props) {
       }
     };
     const calculatePriceAndSavetoLocalStorage = (isItemAdded) => {
+      // Get the target checkbox value + target div to display result
+      // If target checkbox is checked set the final price + add it to local storage + display the result & same if checkbox is unchecked
       let currentPrice = Number(e.target.value);
       let target = document.getElementById("totalPrice");
       if (isItemAdded === true) {
         finalPrice = Number(finalPrice) + Number(currentPrice);
         localStorage.setItem("ORDER_PRICE", Number(finalPrice).toFixed(2));
-        target.textContent = `$${Number(finalPrice).toFixed(2)}`;
       } else {
         finalPrice = Number(finalPrice) - Number(currentPrice);
         localStorage.setItem("ORDER_PRICE", Number(finalPrice).toFixed(2));
-        target.textContent = `$${Number(finalPrice).toFixed(2)}`;
       }
+      target.textContent = `$${Number(finalPrice).toFixed(2)}`;
     };
     const classCheckToggleItem = () => {
       for (let i = 0; i < getPizzaItems.length; i++) {
@@ -132,7 +138,6 @@ function App(props) {
       classCheckToggleItem();
     }
   };
-
   return (
     <div className="builder">
       {/* Fake loader */}
@@ -161,10 +166,10 @@ function App(props) {
               itemName={item.name}
               itemPrice={item.price}
               handleDefaultChecked={
-                localStorage.getItem(`ORDER_ITEM-${item.id}`) === null
+                localStorage.getItem(`ORDER_ITEM-${item.name}`) === null
                   ? false
                   : localStorage
-                      .getItem(`ORDER_ITEM-${item.id}`)
+                      .getItem(`ORDER_ITEM-${item.name}`)
                       .includes(item.name)
                   ? true
                   : false
@@ -223,10 +228,10 @@ function App(props) {
                 // If nothing applies => hide all items by default
                 <p
                   className={
-                    localStorage.getItem(`ORDER_ITEM-${item.id}`) === null
+                    localStorage.getItem(`ORDER_ITEM-${item.name}`) === null
                       ? "added-item hidden"
                       : localStorage
-                          .getItem(`ORDER_ITEM-${item.id}`)
+                          .getItem(`ORDER_ITEM-${item.name}`)
                           .includes(item.name)
                       ? "added-item"
                       : "added-item hidden"
@@ -241,7 +246,7 @@ function App(props) {
           <p id="totalPrice">
             {localStorage.getItem("ORDER_PRICE")
               ? `$${localStorage.getItem("ORDER_PRICE")}`
-              : `$0.00`}
+              : `$0`}
           </p>
         </div>
       </div>

@@ -1,6 +1,8 @@
 import React from "react";
 import "./css/App.css";
-import Header from "./Header";
+import "./css/pizza.css";
+import "./css/selection.css";
+import "./css/total.css";
 import Selection from "./Selection";
 import Pizza from "./Pizza";
 import Pizzabase from "./img/pizzabase.png";
@@ -14,13 +16,12 @@ import Mushrooms from "./img/mushrooms.png";
 import Spinach from "./img/spinach.png";
 import Jalapenos from "./img/jalapenios.png";
 import Olives from "./img/msl.png";
-// Sometimes I get a -0.00, need to figure it out later
 function App(props) {
   let finalPrice = Number(localStorage.getItem("ORDER_PRICE"));
   // Fake loader
   setTimeout(() => {
     document.querySelector(".loader").classList.add("hidden");
-  }, 1000);
+  }, 500);
   let items = [
     { id: 0, name: "Cheese", price: 3, image: Cheese },
     { id: 1, name: "Ham", price: 3.5, image: Ham },
@@ -103,13 +104,17 @@ function App(props) {
     const calculatePriceAndSavetoLocalStorage = (isItemAdded) => {
       // Get the target checkbox value + target div to display result
       // If target checkbox is checked set the final price + add it to local storage + display the result & same if checkbox is unchecked
-      let currentPrice = Number(e.target.value);
+      let currentPrice = Number(e.target.value).toFixed(2);
       let target = document.getElementById("totalPrice");
       if (isItemAdded === true) {
-        finalPrice = Number(finalPrice) + Number(currentPrice);
+        finalPrice =
+          Math.round(finalPrice * 100) / 100 +
+          Math.round(currentPrice * 100) / 100;
         localStorage.setItem("ORDER_PRICE", Number(finalPrice).toFixed(2));
       } else {
-        finalPrice = Number(finalPrice) - Number(currentPrice);
+        finalPrice =
+          Math.round(finalPrice * 100) / 100 -
+          Math.round(currentPrice * 100) / 100;
         localStorage.setItem("ORDER_PRICE", Number(finalPrice).toFixed(2));
       }
       target.textContent = `$${Number(finalPrice).toFixed(2)}`;
@@ -144,21 +149,24 @@ function App(props) {
       <div className="loader">
         <div className="spinner"></div>
       </div>
-      <Header />
       <div className="_builder">
         <div className="selection">
           <p className="_selection__header">Build your pizza</p>
-          <div className="pizza-sauce__select">
-            <label>Select sauce </label>
-            <select
-              // Default sauce is Tomato sauce
-              defaultValue={localStorage.getItem("ORDER_PIZZA_SAUCE")}
-              onChange={handleSauceChange}
-            >
-              <option value="tomato sauce">Tomato Sauce</option>
-              <option value="cream">Cream</option>
-            </select>
-          </div>
+          <label htmlFor="pizzaSauceSelect">Select sauce </label>
+
+          <select
+            id="pizzaSauceSelect"
+            className="pizza-sauce__select"
+            // Default sauce is Tomato sauce
+            defaultValue={localStorage.getItem("ORDER_PIZZA_SAUCE")}
+            onChange={handleSauceChange}
+          >
+            <option value="tomato sauce">Tomato Sauce</option>
+            <option value="cream">Cream</option>
+          </select>
+
+          <label className="label-toppings">Select pizza toppings </label>
+
           {/* The item list */}
           {items.map((item) => (
             <Selection
@@ -246,7 +254,7 @@ function App(props) {
           <p id="totalPrice">
             {localStorage.getItem("ORDER_PRICE")
               ? `$${localStorage.getItem("ORDER_PRICE")}`
-              : `$0`}
+              : `$0.00`}
           </p>
         </div>
       </div>

@@ -1,7 +1,164 @@
 ._selection__component {
-  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  border-radius: 6px;
+  position: relative;
+  box-shadow: 10px 10px 20px -10px rgba(0, 0, 0, 1);
+  cursor: grab;
+  transition: all linear;
 }
+
+._selection__component:after {
+  content: url(/src/img/more-vertical.svg);
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 20px;
+  padding: 0 10px;
+  z-index: -1;
+}
+
+._selection__component:active {
+  top: 2px;
+  left: 2px;
+  cursor: grabbing;
+  box-shadow: 6px 6px 16px -6px rgba(0, 0, 0, 1);
+}
+
+._selection__component:active::after {
+  cursor: grabbing;
+}
+
+._selection__component label {
+  padding-left: 1rem;
+  cursor: pointer;
+}
+
+.selection {
+  flex-basis: 20%;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  height: 100%;
+}
+
+.selection__header {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.selection label[for="pizzaSauceSelect"] {
+  margin-bottom: 10px;
+}
+
+.pizza-sauce__select {
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+
 .selection-checkbox {
-  margin: 1rem;
-  margin-top: 0;
+  cursor: pointer;
+}
+
+.selection select,
+.label-toppings {
+  margin-bottom: 10px;
+}
+
+.selection {
+  display: flex;
+  flex-direction: column;
+  background: #00000050;
+  padding: 1rem;
+  color: #fff;
+  justify-content: flex-start;
+  align-items: center;
+  backdrop-filter: blur(6.5px);
+  -webkit-backdrop-filter: blur(6.5px);
+  /* not available in Firefox atm, perhaps later */
+  -moz-backdrop-filter: blur(6.5px);
+}
+
+@media screen and (max-width: 640px) {
+  .selection {
+    display: flex;
+    height: 40%;
+    border-radius: 0px;
+    padding: 4px;
+    padding-bottom: 0;
+  }
+
+  .selection_component_wrap {
+    flex-direction: row;
+    justify-content: flex-start;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    width: 100vw;
+    padding: 0 1rem;
+  }
+
+  .selection_component_wrap:before {
+    content: url(/src/img/chevron-left.svg);
+    display: block;
+    position: absolute;
+    left: 6px;
+    bottom: 1rem;
+    z-index: 200;
+    pointer-events: none;
+  }
+
+  .selection_component_wrap:after {
+    content: url(/src/img/chevron-right.svg);
+    display: block;
+    position: absolute;
+    right: 6px;
+    bottom: 1rem;
+    z-index: 200;
+    pointer-events: none;
+  }
+
+  .selection__header {
+    font-size: 1.2rem;
+    margin-bottom: 2px;
+  }
+
+  .pizza-sauce__select {
+    padding: 4px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+  }
+  .selection select {
+    margin-bottom: 6px;
+  }
+
+  /* Component */
+  ._selection__component {
+    margin-right: 10px;
+    font-size: 0.9rem;
+    padding: 6px 10px;
+    box-shadow: none;
+  }
+
+  .selection-checkbox {
+    margin-right: 10px;
+  }
+  ._selection__component:after {
+    content: "";
+  }
+  ._selection__component:active {
+    box-shadow: none;
+  }
+  ._selection__component label {
+    padding-left: 0;
+  }
 }

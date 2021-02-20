@@ -1,5 +1,4 @@
 import React from "react";
-import "./css/pizza.css";
 
 function Pizza({ itemImage, itemAlt }) {
   return (

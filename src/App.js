@@ -1,7 +1,7 @@
 import React from "react";
 import "./css/App.css";
-import "./css/pizza.css";
 import "./css/selection.css";
+import "./css/pizza.css";
 import "./css/total.css";
 import Selection from "./Selection";
 import Pizza from "./Pizza";
@@ -144,15 +144,17 @@ function App(props) {
     }
   };
   return (
-    <div className="builder">
+    <div className="wrap">
       {/* Fake loader */}
       <div className="loader">
         <div className="spinner"></div>
       </div>
-      <div className="_builder">
+      <div className="builder">
         <div className="selection">
-          <p className="_selection__header">Build your pizza</p>
-          <label htmlFor="pizzaSauceSelect">Select sauce </label>
+          <p className="selection__header">Build your pizza</p>
+          <label className="x-mobile" htmlFor="pizzaSauceSelect">
+            Select sauce
+          </label>
 
           <select
             id="pizzaSauceSelect"
@@ -165,27 +167,31 @@ function App(props) {
             <option value="cream">Cream</option>
           </select>
 
-          <label className="label-toppings">Select pizza toppings </label>
+          <label className="label-toppings x-mobile">
+            Select pizza toppings
+          </label>
 
-          {/* The item list */}
-          {items.map((item) => (
-            <Selection
-              key={item.id}
-              itemName={item.name}
-              itemPrice={item.price}
-              handleDefaultChecked={
-                localStorage.getItem(`ORDER_ITEM-${item.name}`) === null
-                  ? false
-                  : localStorage
-                      .getItem(`ORDER_ITEM-${item.name}`)
-                      .includes(item.name)
-                  ? true
-                  : false
-              }
-              // handleChange is prop from Selection
-              handleChange={handleChecked}
-            />
-          ))}
+          <div className="selection_component_wrap">
+            {/* The item list */}
+            {items.map((item) => (
+              <Selection
+                key={item.id}
+                itemName={item.name}
+                itemPrice={item.price}
+                handleDefaultChecked={
+                  localStorage.getItem(`ORDER_ITEM-${item.name}`) === null
+                    ? false
+                    : localStorage
+                        .getItem(`ORDER_ITEM-${item.name}`)
+                        .includes(item.name)
+                    ? true
+                    : false
+                }
+                // handleChange is prop from Selection
+                handleChange={handleChecked}
+              />
+            ))}
+          </div>
         </div>
         <div className="pizza">
           <img className="pizza-base" src={Pizzabase} alt="Pizza Base" />

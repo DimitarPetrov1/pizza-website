@@ -1,11 +1,3 @@
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 /* Fake loader */
 .loader {
   display: flex;
@@ -38,51 +30,33 @@
 }
 /*  */
 
-.builder {
+.wrap {
   background: url(/src/img/bg.jpg);
   background-position: center;
   background-size: cover;
 }
 
-._builder {
+.builder {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  /* Header has height 50px */
-  height: calc(100vh - 50px);
+  height: 100vh;
+  width: 100vw;
   overflow: hidden;
 }
 
-.selection,
-.pizza,
-.total {
-  flex-basis: 20%;
-  /* Header has height 50px */
-  height: calc(100vh - 50px);
+.selection_component_wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-/* Pizza area */
-.pizza {
-  /* override */
-  position: relative;
-  flex-basis: 60%;
+.selection_component_wrap::-webkit-scrollbar {
+  display: none;
 }
-.pizza img {
-  object-fit: contain;
-  pointer-events: none;
-}
-.pizza-base,
-.sauce,
-.pizza-item {
-  position: absolute;
-  height: 80%;
-  width: 80%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-/* Pizza area */
 
 .hidden {
   visibility: hidden;
@@ -91,57 +65,17 @@
   width: 0;
   overflow: hidden;
 }
-/* Selection & Total */
-.total,
-.selection {
-  background: #00000050;
-  padding: 1rem;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  backdrop-filter: blur(6.5px);
-  -webkit-backdrop-filter: blur(6.5px);
-  /* not available in Firefox atm, perhaps later */
-  -moz-backdrop-filter: blur(6.5px);
-}
 
-/* Selection */
+@media screen and (max-width: 640px) {
+  .x-mobile {
+    visibility: hidden;
+    pointer-events: none;
+    height: 0;
+    width: 0;
+    overflow: hidden;
+  }
 
-._selection__header {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.selection select {
-  margin-bottom: 0.5rem;
-}
-
-/* Total */
-._total__header {
-  font-size: 2rem;
-  border-bottom: 2px dotted #fff;
-  margin-bottom: 1rem;
-}
-
-#itemsCart {
-  flex: 1;
-}
-
-#totalSauce::first-letter,
-.added-item::first-letter {
-  text-transform: uppercase;
-}
-.pizza-sauce__select::after,
-#totalSauce::after {
-  content: "+";
-  display: block;
-  text-align: center;
-}
-
-#totalPrice {
-  font-size: 2rem;
-  margin-top: 1rem;
-  border-top: 2px dotted #fff;
+  .builder {
+    flex-direction: column;
+  }
 }

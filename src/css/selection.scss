@@ -1,27 +1,26 @@
 .selection__component {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   background: rgba(0, 0, 0, 0.4);
   padding-left: 10px;
   margin-bottom: 10px;
   width: 100%;
   border-radius: 6px;
   position: relative;
-  -webkit-box-shadow: 10px 10px 20px -10px black;
-          box-shadow: 10px 10px 20px -10px black;
-  -webkit-transition: all linear;
+  box-shadow: 10px 10px 20px -10px rgba(0, 0, 0, 1);
+  // cursor: grab;
   transition: all linear;
 }
 
 .selection__component:active {
   top: 2px;
   left: 2px;
-  -webkit-box-shadow: 6px 6px 16px -6px black;
-          box-shadow: 6px 6px 16px -6px black;
+  // cursor: grabbing;
+  box-shadow: 6px 6px 16px -6px rgba(0, 0, 0, 1);
+}
+
+.selection__component:active::after {
+  // cursor: grabbing;
 }
 
 .selection__component label {
@@ -31,8 +30,7 @@
 }
 
 .selection {
-  -ms-flex-preferred-size: 20%;
-      flex-basis: 20%;
+  flex-basis: 20%;
   height: 100%;
 }
 
@@ -66,22 +64,13 @@
 }
 
 .selection {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
   background: #00000050;
   padding: 1rem;
   color: #fff;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: flex-start;
+  align-items: center;
   backdrop-filter: blur(6.5px);
   -webkit-backdrop-filter: blur(6.5px);
   /* not available in Firefox atm, perhaps later */
@@ -94,27 +83,22 @@
 
 @media screen and (max-width: 640px) {
   .selection {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
     height: 100%;
     padding: 4px;
     padding-bottom: 0;
     width: 100%;
   }
+
   .selection_component_wrap {
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-            flex-direction: row;
-    -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
+    flex-direction: row;
+    justify-content: flex-start;
     overflow-x: scroll;
     overflow-y: hidden;
     width: 100%;
     padding: 0 1rem;
   }
+
   .selection_component_wrap_left {
     content: url("/src/img/chevron-left.svg");
     position: absolute;
@@ -124,6 +108,7 @@
     pointer-events: none;
     visibility: hidden;
   }
+
   .selection_component_wrap_right {
     content: url("/src/img/chevron-right.svg");
     position: absolute;
@@ -133,10 +118,12 @@
     pointer-events: none;
     visibility: visible;
   }
+
   .selection__header {
     font-size: 1.2rem;
     margin-bottom: 2px;
   }
+
   .pizza-sauce__select {
     padding: 4px;
     border-radius: 4px;
@@ -145,23 +132,22 @@
   .selection select {
     margin-bottom: 6px;
   }
+
   /* Component */
   .selection__component {
     margin-right: 10px;
     font-size: 0.9rem;
     padding: 6px 10px;
-    -webkit-box-shadow: none;
-            box-shadow: none;
+    box-shadow: none;
   }
+
   .selection-checkbox {
     margin-right: 10px;
   }
   .selection__component:active {
-    -webkit-box-shadow: none;
-            box-shadow: none;
+    box-shadow: none;
   }
   .selection__component label {
     padding-left: 0;
   }
 }
-/*# sourceMappingURL=selection.css.map */

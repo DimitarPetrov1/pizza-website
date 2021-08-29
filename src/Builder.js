@@ -46,6 +46,7 @@ function App(props) {
     document.getElementById("totalSauce").textContent = e.target.value;
     localStorage.setItem("ORDER_PIZZA_SAUCE", e.target.value);
   };
+
   // - Save checked state in LS if checkbox is checked
   // - Display the items in TOTAL
   // - Display the price in TOTAL and add to LS

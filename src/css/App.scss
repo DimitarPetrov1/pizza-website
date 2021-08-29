@@ -20,17 +20,6 @@
   z-index: 999;
 }
 
-.main-header {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: 999;
-  background: white;
-  padding: 10px 12px;
-  text-decoration: none;
-  color: black;
-}
-
 @keyframes loader {
   0% {
     transform: rotate(0deg);

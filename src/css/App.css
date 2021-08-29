@@ -27,17 +27,6 @@
   z-index: 999;
 }
 
-.main-header {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: 999;
-  background: white;
-  padding: 10px 12px;
-  text-decoration: none;
-  color: black;
-}
-
 @-webkit-keyframes loader {
   0% {
     -webkit-transform: rotate(0deg);

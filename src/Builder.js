@@ -159,12 +159,14 @@ function App(props) {
     }
   };
 
-  const mobileTotalExpand = () => {
+  const mobileTotalExpand = (e) => {
     const expandElementTotal = document.querySelector(".total");
     if (!expandElementTotal.classList.contains("total__mobile-expanded")) {
       expandElementTotal.classList.add("total__mobile-expanded");
+      e.target.style.transform = "rotate(90deg)";
     } else {
       expandElementTotal.classList.remove("total__mobile-expanded");
+      e.target.style.transform = "rotate(-90deg)";
     }
   };
 
